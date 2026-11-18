@@ -1,0 +1,20 @@
+# IDE Configurations
+.idea/
+.vs/
+
+# .NET Build Outputs
+bin/
+obj/
+
+# User-specific files
+*.csproj.user
+*.suo
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Misc
+README.md
+LICENSE
