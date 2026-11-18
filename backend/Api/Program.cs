@@ -9,8 +9,11 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Database
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? "Data Source=carshow.db";
+
 builder.Services.AddDbContext<IAppDbContext, AppDbContext>(options =>
-    options.UseInMemoryDatabase("VerticalSliceDb"));
+    options.UseSqlite(connectionString));
 
 // Validators
 builder.Services.AddValidatorsFromAssembly(typeof(IAppDbContext).Assembly);
@@ -33,14 +36,11 @@ builder.Services.AddOpenApi(options =>
 
 var app = builder.Build();
 
-// Seed data
+// Apply pending migrations on startup
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-    // dbContext.<Entities>.AddRange(...);
-
-    dbContext.SaveChanges();
+    dbContext.Database.Migrate();
 }
 
 // Configure the HTTP request pipeline
