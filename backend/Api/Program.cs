@@ -66,11 +66,12 @@ builder.Services.AddOpenApi(options =>
 
 var app = builder.Build();
 
-// Apply pending migrations on startup
+// Apply pending migrations and seed initial data on startup
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.Migrate();
+    RegistrationSeeder.Seed(dbContext);
 }
 
 // Configure the HTTP request pipeline
