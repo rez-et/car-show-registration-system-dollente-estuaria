@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Api.Features.Registrations;
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
@@ -38,6 +39,11 @@ builder.Services.AddScoped<
     GetRegistrationSummaryQueryHandler>();
 
 // API
+builder.Services.AddProblemDetails();
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi(options =>
 {
