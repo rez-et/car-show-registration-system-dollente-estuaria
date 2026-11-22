@@ -23,7 +23,10 @@ public sealed class AppDbContext : DbContext, IAppDbContext
                 .IsUnique();
 
             entity.Property(e => e.RegistrationDate)
-                .IsRequired();
+                .IsRequired()
+                .HasConversion(
+                    v => v.Kind == DateTimeKind.Local ? v.ToUniversalTime() : DateTime.SpecifyKind(v, DateTimeKind.Utc),
+                    v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
 
             entity.Property(e => e.ParticipantName)
                 .IsRequired()
