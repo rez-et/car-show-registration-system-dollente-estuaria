@@ -17,24 +17,22 @@ public sealed class GetRegistrationSummaryQueryHandler(IAppDbContext dbContext)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
-        var totalFees = registrations.Sum(r => r.RegistrationFee);
-        var totalCollected = registrations.Sum(r => r.AmountPaid);
+        var activeRegistrations = registrations
+            .Where(r => r.Status != RegistrationStatus.Cancelled)
+            .ToList();
+
+        var totalFees = activeRegistrations.Sum(r => r.RegistrationFee);
+        var totalPayments = activeRegistrations.Sum(r => r.AmountPaid);
 
         var summary = new GetRegistrationSummaryResponse(
             TotalRegistrations: registrations.Count,
-            PendingCount: registrations.Count(r => r.Status == RegistrationStatus.Pending),
-            ConfirmedCount: registrations.Count(r => r.Status == RegistrationStatus.Confirmed),
-            CheckedInCount: registrations.Count(r => r.Status == RegistrationStatus.CheckedIn),
-            CancelledCount: registrations.Count(r => r.Status == RegistrationStatus.Cancelled),
-            ExhibitorCount: registrations.Count(r => r.RegistrationType == RegistrationType.Exhibitor),
-            CompetitorCount: registrations.Count(r => r.RegistrationType == RegistrationType.Competitor),
-            VipCount: registrations.Count(r => r.RegistrationType == RegistrationType.VIP),
-            UnpaidCount: registrations.Count(r => r.PaymentStatus == PaymentStatus.Unpaid),
-            PartialCount: registrations.Count(r => r.PaymentStatus == PaymentStatus.Partial),
-            PaidCount: registrations.Count(r => r.PaymentStatus == PaymentStatus.Paid),
+            Confirmed: registrations.Count(r => r.Status == RegistrationStatus.Confirmed),
+            CheckedIn: registrations.Count(r => r.Status == RegistrationStatus.CheckedIn),
+            Pending: registrations.Count(r => r.Status == RegistrationStatus.Pending),
+            Cancelled: registrations.Count(r => r.Status == RegistrationStatus.Cancelled),
             TotalFees: totalFees,
-            TotalCollected: totalCollected,
-            TotalBalance: totalFees - totalCollected);
+            TotalPayments: totalPayments,
+            UncollectedPayments: totalFees - totalPayments);
 
         return Result<GetRegistrationSummaryResponse>.Success(summary);
     }

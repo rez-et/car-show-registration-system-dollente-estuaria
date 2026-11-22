@@ -7,16 +7,10 @@ public sealed record GetRegistrationSummaryQuery() : IQuery<Result<GetRegistrati
 
 public sealed record GetRegistrationSummaryResponse(
     int TotalRegistrations,
-    int PendingCount,
-    int ConfirmedCount,
-    int CheckedInCount,
-    int CancelledCount,
-    int ExhibitorCount,
-    int CompetitorCount,
-    int VipCount,
-    int UnpaidCount,
-    int PartialCount,
-    int PaidCount,
+    int Confirmed,
+    int CheckedIn,
+    int Pending,
+    int Cancelled,
     decimal TotalFees,
-    decimal TotalCollected,
-    decimal TotalBalance);
+    decimal TotalPayments,
+    decimal UncollectedPayments);
