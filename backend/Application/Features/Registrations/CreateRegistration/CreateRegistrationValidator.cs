@@ -12,11 +12,13 @@ public sealed class CreateRegistrationValidator : AbstractValidator<CreateRegist
             .MaximumLength(150);
 
         RuleFor(x => x.ContactNumber)
+            .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .Matches(@"^09\d{9}$")
             .WithMessage("ContactNumber must be in PH mobile format 09XXXXXXXXX (11 digits).");
 
         RuleFor(x => x.Email)
+            .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .EmailAddress()
             .MaximumLength(200);
