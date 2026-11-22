@@ -51,7 +51,7 @@ export default function RegistrationFilters({
             disabled={disabled}
             className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:bg-slate-100"
           >
-            <option value="All">All Types</option>
+            <option value="All">All</option>
             <option value="Exhibitor">Exhibitor</option>
             <option value="Competitor">Competitor</option>
             <option value="VIP">VIP</option>
@@ -72,7 +72,7 @@ export default function RegistrationFilters({
             disabled={disabled}
             className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:bg-slate-100"
           >
-            <option value="All">All Statuses</option>
+            <option value="All">All</option>
             <option value="Pending">Pending</option>
             <option value="Confirmed">Confirmed</option>
             <option value="CheckedIn">CheckedIn</option>
