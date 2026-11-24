@@ -6,6 +6,11 @@
 bin/
 obj/
 
+# SQLite Database Files
+*.db
+*.db-shm
+*.db-wal
+
 # User-specific files
 *.csproj.user
 *.suo
